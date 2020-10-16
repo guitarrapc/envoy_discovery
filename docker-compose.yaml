@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  eds_server:
+    image: envoy_discovery_sds
+    build:
+      context: ./eds_server
+    ports:
+      - 8080:8080
+
+  upstream1:
+    image: envoy_discovery_upstream
+    build:
+      context: ./upstream
+    ports:
+      - 8081:8081
+
+  upstream2:
+    image: envoy_discovery_upstream
+    build:
+      context: ./upstream
+    ports:
+      - 8082:8081
+
+  upstream3:
+    image: envoy_discovery_upstream
+    build:
+      context: ./upstream
+    ports:
+      - 8083:8081

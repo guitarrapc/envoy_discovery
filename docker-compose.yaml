@@ -1,12 +1,17 @@
 version: "3"
 
 services:
-  eds_server:
-    image: envoy_discovery_sds
-    build:
-      context: ./eds_server
-    ports:
-      - 8080:8080
+  # eds_server:
+  #   image: envoy_discovery_sds
+  #   build:
+  #     context: ./eds_server
+  #   ports:
+  #     - 8080:8080
+
+  # eds_server:
+  #   image: guitarrapc/envoy_discovery_sds_rest:3.1
+  #   ports:
+  #     - 8080:80
 
   upstream1:
     image: envoy_discovery_upstream

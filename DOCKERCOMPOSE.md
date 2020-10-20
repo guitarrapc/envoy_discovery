@@ -1,5 +1,6 @@
 ```shell
-docker-compose up -d --build
+docker-compose pull
+docker-compose up --build
 curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{
   "hosts": [
     {
@@ -17,4 +18,5 @@ curl -X PUT "http://localhost:8080/edsservice/myservice" -H "accept: application
 # ./envoy -c envoy_config.yaml -l debug
 ./envoy -c envoy_config.yaml
 for i in {0..99}; do echo "$(curl -s http://localhost:10000)"; done | sort | uniq -c
+for i in {0..1}; do echo "$(curl -s http://localhost:10000)"; done | sort | uniq -c
 ```

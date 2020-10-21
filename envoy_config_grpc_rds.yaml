@@ -19,18 +19,26 @@ static_resources:
       filter_chains:
         - filters:
             - name: envoy.http_connection_manager
-              typed_config:
-                "@type": type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
+              config:
                 stat_prefix: ingress_http
                 codec_type: AUTO
-                route_config:
-                  name: local_route
-                  virtual_hosts:
-                    - name: local_service
-                      domains: ["*"]
-                      routes:
-                        - match: { prefix: "/" }
-                          route: { cluster: service_backend }
+                rds:
+                  route_config_name: local_route
+                  config_source:
+                    api_config_source:
+                      api_type: GRPC
+                      transport_api_version: V2
+                      grpc_services:
+                        envoy_grpc:
+                          cluster_name: xds_cluster
+                # route_config:
+                #   name: local_route
+                #   virtual_hosts:
+                #     - name: local_service
+                #       domains: ["*"]
+                #       routes:
+                #         - match: { prefix: "/" }
+                #           route: { cluster: service_backend }
                 http_filters:
                   - name: envoy.filters.http.router
 
@@ -115,7 +123,7 @@ static_resources:
             grpc_services:
               envoy_grpc:
                 cluster_name: xds_cluster
-    - name: eds_cluster
+    - name: xds_cluster
       type: STATIC
       connect_timeout: 0.25s
       lb_policy: ROUND_ROBIN
@@ -123,7 +131,7 @@ static_resources:
       upstream_connection_options:
         tcp_keepalive: {}
       load_assignment:
-        cluster_name: eds_cluster
+        cluster_name: xds_cluster
         endpoints:
           - lb_endpoints:
               - endpoint:

@@ -1,3 +1,5 @@
+curl
+
 ```shell
 docker-compose pull
 docker-compose up --build
@@ -24,14 +26,22 @@ for i in {0..9}; do echo "$(curl -s -H 'x-selector: 2' http://localhost:10000)";
 for i in {0..9}; do echo "$(curl -s -H 'x-selector: 3' http://localhost:10000)"; done | sort | uniq -c
 ```
 
+grpc
+
+```shell
+./envoy -c envoy_config_grpc.yaml
+```
+
 dynamic_header routing
+
 ```
 docker-compose up
 ./envoy -c envoy_config_dynamic.yaml
 ```
 
-grpc
+dynamic_header routing + lua script dynamic handler
 
-```shell
-./envoy -c envoy_config_grpc.yaml
+```
+docker-compose up
+./envoy -c envoy_config_dynamic_lua.yaml
 ```
